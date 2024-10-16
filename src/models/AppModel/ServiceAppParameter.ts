@@ -1,3 +1,18 @@
+import { ValueType, ValueTypeName } from '../TableModel'
+
+export const ParameterUIType = {
+  Text: 'text',
+  DropDown: 'dropDown',
+  Radio: 'radio',
+  CheckBox: 'checkBox',
+  NodeColumn: 'nodeColumn',
+  EdgeColumn: 'edgeColumn',
+} as const
+export type ParameterUIType =
+  (typeof ParameterUIType)[keyof typeof ParameterUIType]
+
+export type ColumnTypeFilter = 'number' | 'list' | ValueTypeName
+
 export interface ServiceAppParameter {
   // Key of the parameter, used as the label
   displayName: string
@@ -5,13 +20,12 @@ export interface ServiceAppParameter {
   // Tooltip or hint
   description: string
 
-  // Other values: "dropDown", "radio", "checkBox", "nodeColumn", "edgeColumn"
-  type: string
+  type: ParameterUIType
 
-  valueList: string[] // Applicable when type="dropDown"
-  defaultValue: string // Default or selected value
-  validationType: 'string|number|digits' // Data type is only used for text field or data type. It is ignored for other input types.
-  columnTypeFilter: 'number|list|<cx2 type>' //Only for node or edge column type.
+  valueList: ValueType[] // Applicable when type="dropDown"
+  defaultValue: ValueType // Default or selected value
+  validationType: ValueTypeName // Data type is only used for text field or data type. It is ignored for other input types.
+  columnTypeFilter: ColumnTypeFilter //Only for node or edge column type.
   //Can be one of the cx2 supported datatype, number(for long or integer) or list(for any list type)
 
   validationHelp: string
